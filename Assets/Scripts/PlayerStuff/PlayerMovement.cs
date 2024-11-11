@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private TouchGrass playerHealth;
     private Rigidbody2D _rb;
     public CapsuleCollider2D _hitbox; //ultra important, do not remove
     public BoxCollider2D _hurtbox;
+    [SerializeField] private Transform jozoRazcast; 
+    [SerializeField] private float raycastDistance = 0.1f;
     
     [Header("Player Movement Variables")]
     [SerializeField] private float playerSpeed = 5f;
+    [SerializeField] private float maxPlayerFallSpeed = 40f;
     
     [Header("Jump Variables")]
     [SerializeField] private float playerJumpForce = 5f;
@@ -22,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashCooldown = 5f;
-    [SerializeField] private float dashForce = 10f;
     [SerializeField] private bool invincibleWhileDashing;
     
     [Header("Player Movement Booleans")]
@@ -44,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _hurtbox = GetComponent<BoxCollider2D>();
         _hitbox = GetComponent<CapsuleCollider2D>();
+        
+        InvokeRepeating(nameof(GroundedCheck), 0.1f, 0.05f);
     }
 
     // Update is called once per frame
@@ -52,6 +58,11 @@ public class PlayerMovement : MonoBehaviour
         //left and right movement
         float horizontal = Input.GetAxis("Horizontal");
         _rb.velocity = new Vector2(horizontal * playerSpeed, _rb.velocity.y);
+        if (Input.GetAxis("Horizontal") == 0)
+        {
+            //quick lerp stop
+            _rb.velocity = new Vector2(Mathf.Lerp(_rb.velocity.x, 0, Time.deltaTime * 5), _rb.velocity.y);
+        }
         
         //jumping
         if (Input.GetKeyDown(KeyCode.Space))
@@ -65,6 +76,12 @@ public class PlayerMovement : MonoBehaviour
         {
             shouldDash = true;
             StartCoroutine(InputQueueJumpDash());
+        }
+        
+        //limit the fall speed
+        if (_rb.velocity.y < -maxPlayerFallSpeed)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, -maxPlayerFallSpeed);
         }
     }
     
@@ -125,13 +142,21 @@ public class PlayerMovement : MonoBehaviour
 
         while ((Input.GetKey(KeyCode.Space) && jumpTime < jumpTimeMax ) || jumpTime < minJumpTime)
         {
+            _rb.gravityScale = 3f;
             _rb.velocity = new Vector2(_rb.velocity.x, playerJumpForce);
             jumpTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         
-        _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.3f);
+        //lerp down velocity while going up once jump is done
+        while (_rb.velocity.y > 0)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x*0.8f, Mathf.Lerp(_rb.velocity.y, 0, Time.deltaTime));
+            yield return null;
+        }
         
+        //once the player starts going down increase gravity
+        _rb.gravityScale = 2.1f;
        
         isJumping = false;
     }
@@ -143,20 +168,27 @@ public class PlayerMovement : MonoBehaviour
         dashIsOnCooldown = true;
         isDashing = true;
         canDash = false;
+        //move player a minor amount up
+        _rb.velocity = new Vector2(_rb.velocity.x, 0.003f);
         if (invincibleWhileDashing)
         {
+            playerHealth.canTakeDamage = false;
             _hurtbox.enabled = false;
         }
         float dashTime = 0;
         while (dashTime < dashDuration)
         {
-            _rb.velocity = new Vector2(_rb.velocity.x * dashSpeed, _rb.velocity.y);
+            _rb.velocity = new Vector2(_rb.velocity.x * dashSpeed, _rb.velocity.y*0.01f);
             dashTime += Time.deltaTime;
             yield return null;
+            if (dashTime > dashDuration*0.8f)
+            {
+                isDashing = false;
+            }
         }
-        isDashing = false;
         if (invincibleWhileDashing)
         {
+            playerHealth.canTakeDamage = true;
             _hurtbox.enabled = true;
         }
         yield return new WaitForSeconds(dashCooldown);
@@ -170,7 +202,44 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            _rb.gravityScale = 1f;
             _doubleJumpCount = 0;
         }
+        GroundedCheck();
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        GroundedCheck();
+        //happily do nothing
+    }
+
+    //grounded check
+    private void GroundedCheck()
+    {
+        //cast a raycast to check if the player is grounded
+        Collider2D hit = Physics2D.OverlapCircle(jozoRazcast.position, 0.1f, LayerMask.GetMask("Ground"));
+        //if the raycast hits the ground, the player is grounded
+        if (hit != null)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            StartCoroutine(GroundedCheckDelay());
+        }
+    }
+    
+    //if the ground is not detected, remove the grounded status after a short delay
+    private IEnumerator GroundedCheckDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isGrounded = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(jozoRazcast.position, raycastDistance);
     }
 }

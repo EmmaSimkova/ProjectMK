@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Ground
   - Damage
+  - RaycastUpdader
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

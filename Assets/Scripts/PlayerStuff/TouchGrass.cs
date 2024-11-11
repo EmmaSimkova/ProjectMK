@@ -17,6 +17,7 @@ public class TouchGrass : MonoBehaviour
     {
         //set the health to max health
         health = maxHealth;
+        playerHealthUI.UpdateHealthUI();
     }
 
     // Update is called once per frame
