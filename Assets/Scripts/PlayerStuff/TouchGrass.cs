@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class TouchGrass : MonoBehaviour
@@ -9,8 +10,9 @@ public class TouchGrass : MonoBehaviour
     
     [Header("Base stats")]
     [SerializeField] public int health;
-    [SerializeField] public int maxHealth = 5;
+    [SerializeField][Range(1, 10)] public int maxHealth = 5;
     [SerializeField] public bool canTakeDamage = true;
+    [SerializeField] public int storedMeth;
     
     // Start is called before the first frame update
     void Start()
@@ -36,5 +38,12 @@ public class TouchGrass : MonoBehaviour
             //death or smth
             Debug.Log("Dead");
         }
+        //TODO: remove this debug
+        playerHealthUI.UpdateHealthUIBetter();
+    }
+
+    public void AddMeth()
+    {
+        storedMeth++;
     }
 }

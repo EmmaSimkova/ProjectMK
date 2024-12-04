@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PickaxeHitRotate pickaxeHitRotate;
+    [SerializeField] private bool isPlayerRotated;
     [SerializeField] private TouchGrass playerHealth;
     private Rigidbody2D _rb;
     public CapsuleCollider2D _hitbox; //ultra important, do not remove
@@ -14,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement Variables")]
     [SerializeField] private float playerSpeed = 5f;
     [SerializeField] private float maxPlayerFallSpeed = 40f;
+    [SerializeField] public bool canMove = true;
     
     [Header("Jump Variables")]
     [SerializeField] private float playerJumpForce = 5f;
@@ -57,7 +60,16 @@ public class PlayerMovement : MonoBehaviour
     {
         //left and right movement
         float horizontal = Input.GetAxis("Horizontal");
-        _rb.velocity = new Vector2(horizontal * playerSpeed, _rb.velocity.y);
+        if (Mathf.Abs(_rb.velocity.x) >= 0.1f)
+        {
+            GetComponent<SpriteRenderer>().flipX = horizontal < 0;
+        }
+
+        if (canMove)
+        {
+            _rb.velocity = new Vector2(horizontal * playerSpeed, _rb.velocity.y);
+        }
+        
         if (Input.GetAxis("Horizontal") == 0)
         {
             //quick lerp stop
@@ -82,6 +94,30 @@ public class PlayerMovement : MonoBehaviour
         if (_rb.velocity.y < -maxPlayerFallSpeed)
         {
             _rb.velocity = new Vector2(_rb.velocity.x, -maxPlayerFallSpeed);
+        }
+        
+        //rotate the pickaxe
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            if(pickaxeHitRotate.isPickaxeHitting){return;}
+            //resolve the pickaxe rotation based on player direction and W and S keys
+            if (Input.GetKey(KeyCode.W))
+            {
+                pickaxeHitRotate.PickaxeHit(90);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                if(isGrounded){return;}
+                pickaxeHitRotate.PickaxeHit(-90);
+            }
+            else if(GetComponent<SpriteRenderer>().flipX)
+            {
+                pickaxeHitRotate.PickaxeHit(180);
+            }
+            else
+            {
+                pickaxeHitRotate.PickaxeHit(0);
+            }
         }
     }
     

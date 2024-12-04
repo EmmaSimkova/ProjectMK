@@ -11,6 +11,32 @@ public class PlayerHealthUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UpdateHealthUIBetter();
+    }
+
+    //update image when player takes damage or heals
+    public void UpdateHealthUI()
+    {
+        //loop through all the health points
+        for (int i = 0; i < healthPoints.Length; i++)
+        {
+            //if the health is less than the index, set the health point to disabled
+            if (playerHealth.health <= i)
+            {
+                //Swap the image from enabled to disabled, using the SwapHPImage script in the child
+                healthPoints[i].GetComponent<SwapHPImage>().SwapImageToDisabled();
+            }
+            //if the health is more than the index, set the health point to enabled
+            else
+            {
+                //Swap the image from disabled to enabled, using the SwapHPImage script in the child
+                healthPoints[i].GetComponent<SwapHPImage>().SwapImageToEnabled();
+            }
+        }
+    }
+
+    public void UpdateHealthUIBetter()
+    {
         //make sure the player health is not null
         if (playerHealth == null)
         {
@@ -35,27 +61,6 @@ public class PlayerHealthUI : MonoBehaviour
         for (int i = 0; i < playerHealth.maxHealth; i++)
         {
             healthPoints[i].SetActive(true);
-        }
-    }
-
-    //update image when player takes damage or heals
-    public void UpdateHealthUI()
-    {
-        //loop through all the health points
-        for (int i = 0; i < healthPoints.Length; i++)
-        {
-            //if the health is less than the index, set the health point to disabled
-            if (playerHealth.health <= i)
-            {
-                //Swap the image from enabled to disabled, using the SwapHPImage script in the child
-                healthPoints[i].GetComponent<SwapHPImage>().SwapImageToDisabled();
-            }
-            //if the health is more than the index, set the health point to enabled
-            else
-            {
-                //Swap the image from disabled to enabled, using the SwapHPImage script in the child
-                healthPoints[i].GetComponent<SwapHPImage>().SwapImageToEnabled();
-            }
         }
     }
 }
