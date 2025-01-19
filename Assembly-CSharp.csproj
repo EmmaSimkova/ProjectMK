@@ -46,11 +46,15 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.2.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\PlayerStuff\PickaxeHitRotate.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\TouchGrass.cs" />
      <Compile Include="Assets\Scripts\BaseStuff\Damage.cs" />
+     <Compile Include="Assets\Scripts\PlayerStuff\Wall Jumping Check.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\UI\SwapHPImage.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\CollisionHandler.cs" />
+     <Compile Include="Assets\Scripts\BaseStuff\MethCrystal.cs" />
+     <Compile Include="Assets\Scripts\BaseStuff\MethShard.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerHealthUI.cs" />
      <Folder Include="Assets" />
      <Folder Include="Library\BuildInstructions" />
@@ -63,6 +67,7 @@
      <Folder Include="Assets\Scripts\PlayerStuff" />
      <Folder Include="Assets\Resources\PlayerHPImages" />
      <Folder Include="Assets\Scripts\BaseStuff" />
+     <Folder Include="Assets\Prefabs" />
      <Folder Include="Assets\Scenes" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.2.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
