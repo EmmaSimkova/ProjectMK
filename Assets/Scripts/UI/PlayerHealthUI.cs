@@ -51,6 +51,9 @@ public class PlayerHealthUI : MonoBehaviour
             healthPoints[i] = transform.GetChild(i).gameObject;
         }
         
+        //sort the health points by name
+        System.Array.Sort(healthPoints, (x, y) => x.name.CompareTo(y.name));
+        
         //set all the health points to disabled
         for (int i = 0; i < healthPoints.Length; i++)
         {

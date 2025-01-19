@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //current list of features:
+    //player movement
+    //player jumping
+    //player dashing
+    //player input queue
+    //player grounded check
+    //player pickaxe rotation
+    //player health
+    //player invincibility while dashing
+    
     [SerializeField] private PickaxeHitRotate pickaxeHitRotate;
     [SerializeField] private bool isPlayerRotated;
     [SerializeField] private TouchGrass playerHealth;
@@ -25,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private int _doubleJumpCount;
     [SerializeField] private int maxDoubleJumpCount = 1;
     [SerializeField] private float minJumpTime = 0.5f;
+    [SerializeField] public bool canWallJump;
+    [SerializeField] public GameObject otherWall;
     
     [Header("Dash Variables")]
     [SerializeField] private float dashSpeed = 10f;
@@ -70,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             _rb.velocity = new Vector2(horizontal * playerSpeed, _rb.velocity.y);
         }
         
-        if (Input.GetAxis("Horizontal") == 0)
+        if (Input.GetAxis("Horizontal") == 0 && isGrounded)
         {
             //quick lerp stop
             _rb.velocity = new Vector2(Mathf.Lerp(_rb.velocity.x, 0, Time.deltaTime * 5), _rb.velocity.y);
@@ -132,15 +144,20 @@ public class PlayerMovement : MonoBehaviour
             //for as long as the input queue duration, check if player can jump
             while (jumpWaitTime < inputQueueDuration)
             {
+                if (canWallJump)
+                {
+                    StartCoroutine(nameof(WallJump));
+                    break;
+                }
                 //if player is grounded and not jumping, jump
-                if (isGrounded && !isJumping && _doubleJumpCount == 0)
+                if (isGrounded && !isJumping && _doubleJumpCount == 0 && !canWallJump)
                 {
                     isGrounded = false;
                     StartCoroutine(   Jump(maxJumpTime));
                     break;
                 }
                 //if player is not grounded and has not double jumped, double jump
-                else if (!isGrounded && _doubleJumpCount < maxDoubleJumpCount) 
+                else if (!isGrounded && _doubleJumpCount < maxDoubleJumpCount && !canWallJump) 
                 {
                     _doubleJumpCount++;
                     StartCoroutine(Jump(maxJumpTime * jumpTimeLimitOnDoubleJump));
@@ -168,6 +185,21 @@ public class PlayerMovement : MonoBehaviour
             }
             shouldDash = false;
         }
+    }
+    
+    public IEnumerator WallJump()
+    {
+        isJumping = true;
+        canMove = false;
+        _rb.velocity = new Vector2((otherWall.transform.position.x > this.transform.position.x? -15 : 15), playerJumpForce*1.5f);
+        yield return new WaitForSeconds(0.4f);
+        canMove = true;
+        isJumping = false;
+    }
+    
+    public void WallJumpCheck(GameObject wall)
+    {
+        otherWall = wall;
     }
     
     //jumping

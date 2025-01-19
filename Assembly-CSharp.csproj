@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\PlayerStuff\PickaxeHitRotate.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\TouchGrass.cs" />
      <Compile Include="Assets\Scripts\BaseStuff\Damage.cs" />
+     <Compile Include="Assets\Scripts\PlayerStuff\Wall Jumping Check.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\UI\SwapHPImage.cs" />
      <Compile Include="Assets\Scripts\PlayerStuff\CollisionHandler.cs" />
