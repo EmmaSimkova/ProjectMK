@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     //player pickaxe rotation
     //player health
     //player invincibility while dashing
+    //Audio (Emma)
     
     [SerializeField] private PickaxeHitRotate pickaxeHitRotate;
     [SerializeField] private bool isPlayerRotated;
@@ -56,6 +57,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool shouldJump;
     [SerializeField] private bool shouldDash;
     
+    
+    AudioManagerScript audioManagerScript;
+
+    private void Awake()
+    {
+        audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManagerScript>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -207,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isJumping = true;
         float jumpTime = 0;
+        audioManagerScript.PlaySFX(audioManagerScript.jump);
 
         while ((Input.GetKey(KeyCode.Space) && jumpTime < jumpTimeMax ) || jumpTime < minJumpTime)
         {
