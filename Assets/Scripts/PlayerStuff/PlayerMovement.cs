@@ -120,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
         //rotate the pickaxe
         if (Input.GetKey(KeyCode.Mouse0))
         {
+            //TODO: fix the pickaxe rotation to save the last rotation
             if(pickaxeHitRotate.isPickaxeHitting){return;}
             //resolve the pickaxe rotation based on player direction and W and S keys
             if (Input.GetKey(KeyCode.W))
@@ -200,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isJumping = true;
         canMove = false;
-        _rb.velocity = new Vector2((otherWall.transform.position.x > this.transform.position.x? -15 : 15), playerJumpForce*1.5f);
+        _rb.velocity = new Vector2((otherWall.transform.position.x > this.transform.position.x? -15 : 15), playerJumpForce);
         yield return new WaitForSeconds(0.4f);
         canMove = true;
         isJumping = false;
