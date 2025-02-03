@@ -10,6 +10,7 @@ TagManager:
   - Meth
   - Pickaxe
   - Audio
+  - door
   layers:
   - Default
   - TransparentFX

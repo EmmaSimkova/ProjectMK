@@ -51,11 +51,13 @@
     <Compile Include="Assets\Scripts\BaseStuff\Damage.cs" />
     <Compile Include="Assets\Scripts\Sounds\BackgroundMusicScript.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\Wall Jumping Check.cs" />
+    <Compile Include="Assets\Scripts\DoorManager.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\UI\SwapHPImage.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\CollisionHandler.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\MethCrystal.cs" />
     <Compile Include="Assets\Scripts\Sounds\AudioManagerScript.cs" />
+    <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\MethShard.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerHealthUI.cs" />
     <Reference Include="UnityEngine">
