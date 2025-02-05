@@ -120,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
         //rotate the pickaxe
         if (Input.GetKey(KeyCode.Mouse0))
         {
+            //brute force player damagable after pickaxe hit
+            StartCoroutine(ForceDamagable());
             //TODO: fix the pickaxe rotation to save the last rotation
             if(pickaxeHitRotate.isPickaxeHitting){return;}
             //resolve the pickaxe rotation based on player direction and W and S keys
@@ -140,6 +142,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 pickaxeHitRotate.PickaxeHit(0);
             }
+        }
+    }
+    
+    public IEnumerator ForceDamagable()
+    {
+        yield return new WaitForSeconds(1.6f);
+        if (!playerHealth.canTakeDamage)
+        {
+            Debug.Log("FORCED: Player can take damage");
+            playerHealth.canTakeDamage = true;
         }
     }
     

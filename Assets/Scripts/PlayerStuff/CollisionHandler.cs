@@ -33,9 +33,12 @@ public class CollisionHandler : MonoBehaviour
         Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
         if (other.gameObject.TryGetComponent(out Damage dmg2))
         {
+            Debug.Log(dmg2.gameObject.name + " has a Damage component");
             if (!playerHealth.canTakeDamage) return;
             playerHealth.canTakeDamage = false;
-            if(!isPickaxe){StartCoroutine(TriggerEnter(other));}
+            Debug.Log("Player can't take damage");
+            
+            StartCoroutine(TriggerEnter(other));
             
             Knockback(other);
         }
@@ -68,8 +71,6 @@ public class CollisionHandler : MonoBehaviour
             knockbackDirection.x = (other.transform.position.x - transform.position.x > 0 ? -knockbackX : knockbackX);
             knockbackDirection.y = (other.transform.position.y - transform.position.y > 0 ? -knockbackY : 2*knockbackY);
         }
-
-        
         
         player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
         StartCoroutine(KnockbackTimer());
@@ -83,19 +84,21 @@ public class CollisionHandler : MonoBehaviour
         knockingBack = false;
     }
     
-    
     // Hurtbox collision and player taking damage
     private IEnumerator TriggerEnter(Collider2D other)
     {
         if (other.gameObject.GetComponent<Damage>())
         {
-            Debug.Log("Player took " + other.gameObject.GetComponent<Damage>().damage + " damage");
-            //take damage
-            playerHealth.TakeDamage(other.gameObject.GetComponent<Damage>().damage);
-            yield return new WaitForSeconds(0.04f);
-            
+            if (!isPickaxe)
+            {
+                Debug.Log("Player took " + other.gameObject.GetComponent<Damage>().damage + " damage");
+                //take damage
+                playerHealth.TakeDamage(other.gameObject.GetComponent<Damage>().damage);
+            }
+
             //disable the hurtbox for a short time
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.54f);
+            Debug.Log("Player can take damage again");
             playerHealth.canTakeDamage = true;
             //flicker player hitbox to make sure the player takes damage once invincibility is over
             playerHealth.gameObject.GetComponent<BoxCollider2D>().enabled = false;
