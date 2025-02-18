@@ -5,27 +5,39 @@ using UnityEngine.UI;
 
 public class DoorManager : MonoBehaviour
 {
-    public GameObject door1;
-    public GameObject door2;
+    public GameObject[] door1;
+    public GameObject[] door2;
     public GameObject player;
     public Image fadeScreen;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Find the doors in the scene
-        if(door1 == null || door2 == null)
-        {
-            door1 = GameObject.Find("Door1");
-            door2 = GameObject.Find("Door2");
-        }
-    }
 
     public IEnumerator Travel(GameObject door)
     {
+        int index = -1;
+        //find the index of the door that was clicked
+        for (int i = 0; i < door1.Length; i++)
+        {
+            if (door1[i] == door)
+            {
+                index = i;
+                door = door2[index];
+                break;
+            }
+            if (door2[i] == door)
+            {
+                index = i;
+                door = door1[index];
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            Debug.LogError("Door not found in either door1 or door2 arrays.");
+            yield break;
+        }
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        Vector2 otherDoorPosition = door == door1 ? door2.transform.position : door1.transform.position;
+        Vector2 otherDoorPosition = door.transform.position;
         //fade out the screen
         fadeScreen.color = Color.black;
         fadeScreen.CrossFadeAlpha(0, 0, false);
