@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Sounds\AudioManagerScript.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\MethShard.cs" />
+    <Compile Include="Assets\Scripts\MethCouldron.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerHealthUI.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.2.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

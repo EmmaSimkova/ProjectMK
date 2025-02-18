@@ -49,6 +49,13 @@ public class CollisionHandler : MonoBehaviour
                 methCrystal.Collect();
             }
         }
+        if (other.gameObject.TryGetComponent(out MethCouldron methCouldron))
+        {
+            if (isPickaxe)
+            {
+                methCouldron.AddMeth();
+            }
+        }
     }
     
     //knockback function
