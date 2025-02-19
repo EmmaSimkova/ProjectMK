@@ -8,6 +8,7 @@ public class MethCouldron : MonoBehaviour
     [SerializeField] private int currentMeth = 0;
     private GameObject player;
     public bool hasbeenFilled = false;
+    [SerializeField]private GateExit gateExit;
     
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class MethCouldron : MonoBehaviour
         if (currentMeth >= requiredMeth)
         {
             hasbeenFilled = true;
+            gateExit.letsGo = true;
+            StartCoroutine(gateExit.UpdateColor());
         }
     }
 }

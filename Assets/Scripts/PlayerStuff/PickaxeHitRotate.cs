@@ -21,7 +21,7 @@ public class PickaxeHitRotate : MonoBehaviour
     private IEnumerator DebugEnumerator()
     {
         Debug.Log("Hit started");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
         Debug.Log("Hit ended");
         isPickaxeHitting = false;
         pickaxe.gameObject.SetActive(false);

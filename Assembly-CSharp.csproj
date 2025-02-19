@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerStuff\PickaxeHitRotate.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\TouchGrass.cs" />
+    <Compile Include="Assets\Exitter.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\Damage.cs" />
     <Compile Include="Assets\Scripts\Sounds\BackgroundMusicScript.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\Wall Jumping Check.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Assets\Scripts\Sounds\AudioManagerScript.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\MethShard.cs" />
+    <Compile Include="Assets\Scripts\GateExit.cs" />
     <Compile Include="Assets\Scripts\MethCouldron.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerHealthUI.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

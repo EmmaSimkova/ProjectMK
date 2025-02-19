@@ -76,10 +76,12 @@ public class CollisionHandler : MonoBehaviour
         }else
         {
             knockbackDirection.x = (other.transform.position.x - transform.position.x > 0 ? -knockbackX : knockbackX);
-            knockbackDirection.y = (other.transform.position.y - transform.position.y > 0 ? -knockbackY : 2*knockbackY);
+            knockbackDirection.y = (other.transform.position.y - transform.position.y > 0 ? -knockbackY : 3*knockbackY);
         }
-        
-        player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
+
+        float _KBforce = knockbackForce;
+        _KBforce = isPickaxe ? 2*knockbackForce : knockbackForce;
+        player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection.normalized * _KBforce, ForceMode2D.Impulse);
         StartCoroutine(KnockbackTimer());
     }
     

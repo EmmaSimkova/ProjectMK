@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     //Audio (Emma)
     
     [SerializeField] private PickaxeHitRotate pickaxeHitRotate;
+    [SerializeField] private GameObject pickaxe;
     [SerializeField] private bool isPlayerRotated;
     [SerializeField] private TouchGrass playerHealth;
     private Rigidbody2D _rb;
@@ -81,9 +82,10 @@ public class PlayerMovement : MonoBehaviour
     {
         //left and right movement
         float horizontal = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(_rb.velocity.x) >= 0.1f)
+        if (Mathf.Abs(_rb.velocity.x) >= 0.1f && !pickaxeHitRotate.isPickaxeHitting)
         {
             GetComponent<SpriteRenderer>().flipX = horizontal < 0;
+            pickaxe.GetComponent<SpriteRenderer>().flipX = horizontal < 0;
         }
 
         if (canMove)
