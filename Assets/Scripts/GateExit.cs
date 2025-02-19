@@ -24,7 +24,7 @@ public class GateExit : MonoBehaviour
     {
         //generate random starting color
         CurrentGateColor = new Color(Random.Range(cgl[0], cgl[1]), Random.Range(cgl[2], cgl[3]), Random.Range(cgl[4], cgl[5]), 1);
-        GetComponent<Renderer>().material.color = Color.black;
+        GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     // Update is called once per frame
@@ -35,15 +35,16 @@ public class GateExit : MonoBehaviour
         bool withinBounds = false;
         while (!withinBounds)
         {
-            colorMovement = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f));
+            colorMovement = new Vector3(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f));
             Color tempColor = new Color(CurrentGateColor.r + colorMovement.x, CurrentGateColor.g + colorMovement.y, CurrentGateColor.b + colorMovement.z, 0);
             if (tempColor.r >= cgl[0] && tempColor.r <= cgl[1] && tempColor.g >= cgl[2] && tempColor.g <= cgl[3] && tempColor.b >= cgl[4] && tempColor.b <= cgl[5])
             {
                 withinBounds = true;
                 CurrentGateColor = tempColor;
+                CurrentGateColor.a = 1;
             }
         }
-        GetComponent<Renderer>().material.color = CurrentGateColor;
+        GetComponent<SpriteRenderer>().color = CurrentGateColor;
         yield return new WaitForSeconds(freqency);
         StartCoroutine(UpdateColor());
     }

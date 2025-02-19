@@ -25,6 +25,8 @@ public class CollisionHandler : MonoBehaviour
             //get the player health script
             playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<TouchGrass>();
         }
+
+        StartCoroutine(DebugMove());
     }
 
     //resolve other object collision
@@ -80,9 +82,16 @@ public class CollisionHandler : MonoBehaviour
         }
 
         float _KBforce = knockbackForce;
-        _KBforce = isPickaxe ? 2*knockbackForce : knockbackForce;
+        _KBforce = isPickaxe ? 4*knockbackForce : knockbackForce;
         player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection.normalized * _KBforce, ForceMode2D.Impulse);
         StartCoroutine(KnockbackTimer());
+    }
+    
+    private IEnumerator DebugMove()
+    {
+        playerMovement.canMove = true;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(DebugMove());
     }
     
     //give back control to the player after a short time

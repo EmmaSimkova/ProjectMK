@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MethCouldron : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MethCouldron : MonoBehaviour
     private GameObject player;
     public bool hasbeenFilled = false;
     [SerializeField]private GateExit gateExit;
+    [SerializeField] private TMPro.TextMeshProUGUI text;
     
     // Start is called before the first frame update
     void Start()
@@ -17,12 +19,14 @@ public class MethCouldron : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
+        text.text = currentMeth + "/" + requiredMeth;
     }
     
     public void AddMeth()
     {
         currentMeth += player.GetComponent<TouchGrass>().storedMeth;
         player.GetComponent<TouchGrass>().storedMeth = 0;
+        text.text = currentMeth + "/" + requiredMeth;
         if (currentMeth >= requiredMeth)
         {
             hasbeenFilled = true;
