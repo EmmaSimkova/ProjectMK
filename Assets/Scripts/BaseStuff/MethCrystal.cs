@@ -8,7 +8,14 @@ namespace BaseStuff
         [SerializeField] private int currentMethAmount;
         [SerializeField] private int methPerHit;
         [SerializeField] private GameObject methShard;
+        
+        AudioManagerScript audioManagerScript;
 
+        private void Awake()
+        {
+            audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManagerScript>();
+        }
+        
         //Start is called before the first frame update
         void Start()
         {
@@ -28,6 +35,7 @@ namespace BaseStuff
             if (currentMethAmount <= 0)
             {
                 Destroy(this.gameObject);
+                audioManagerScript.PlaySFX(audioManagerScript.crystalBreak);
             }
         }
     }

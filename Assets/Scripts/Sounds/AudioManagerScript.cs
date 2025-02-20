@@ -18,6 +18,7 @@ public class AudioManagerScript : MonoBehaviour
     public AudioClip crystalCollect;
     public AudioClip depozit;
     public AudioClip crystalDamage;
+    public AudioClip crystalBreak;
 
 
     private void Start()

@@ -12,6 +12,13 @@ public class MethCouldron : MonoBehaviour
     [SerializeField]private GateExit gateExit;
     [SerializeField] private TMPro.TextMeshProUGUI text;
     
+    AudioManagerScript audioManagerScript;
+    
+    private void Awake()
+    {
+        audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManagerScript>();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +36,7 @@ public class MethCouldron : MonoBehaviour
         text.text = currentMeth + "/" + requiredMeth;
         if (currentMeth >= requiredMeth)
         {
+            audioManagerScript.PlaySFX(audioManagerScript.depozit);
             hasbeenFilled = true;
             gateExit.letsGo = true;
             StartCoroutine(gateExit.UpdateColor());
