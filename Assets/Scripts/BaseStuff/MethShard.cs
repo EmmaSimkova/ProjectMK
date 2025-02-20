@@ -8,6 +8,14 @@ public class MethShard : MonoBehaviour
     [SerializeField] bool isCollected;
      
     [SerializeField] private Transform player;
+    
+    AudioManagerScript audioManagerScript;
+    
+    private void Awake()
+    {
+        audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManagerScript>();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +30,7 @@ public class MethShard : MonoBehaviour
         {
             isCollected = true;
             StartCoroutine(Movement());
+            audioManagerScript.PlaySFX(audioManagerScript.crystalDamage);
         }
     }
     
@@ -33,6 +42,7 @@ public class MethShard : MonoBehaviour
             player.GetComponent<TouchGrass>().AddMeth();
             //destroy the meth shard
             Destroy(this.gameObject);
+            audioManagerScript.PlaySFX(audioManagerScript.crystalCollect);
         }
     }
     

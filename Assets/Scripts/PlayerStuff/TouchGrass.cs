@@ -14,6 +14,13 @@ public class TouchGrass : MonoBehaviour
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public int storedMeth;
     
+    AudioManagerScript audioManagerScript;
+    
+    private void Awake()
+    {
+        audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManagerScript>();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +38,7 @@ public class TouchGrass : MonoBehaviour
     //take damege
     public void TakeDamage(int damage)
     {
+        audioManagerScript.PlaySFX(audioManagerScript.hpDamage);
         health -= damage;
         playerHealthUI.UpdateHealthUI();
         if (health <= 0)
