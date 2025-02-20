@@ -16,4 +16,9 @@ public class Exitter : MonoBehaviour
     {
         animator.SetTrigger("Zapinak");
     }
+    
+    public void MainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
 }
