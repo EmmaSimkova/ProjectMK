@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class TouchGrass : MonoBehaviour
@@ -43,7 +39,8 @@ public class TouchGrass : MonoBehaviour
         playerHealthUI.UpdateHealthUI();
         if (health <= 0)
         {
-            //death or smth
+            //death = loading the main menu
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             Debug.Log("Dead");
         }
         //TODO: remove this debug

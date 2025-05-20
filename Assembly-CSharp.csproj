@@ -56,6 +56,7 @@
     <Compile Include="Assets\Scripts\DoorManager.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\UI\SwapHPImage.cs" />
+    <Compile Include="Assets\PlayerKillOnFall.cs" />
     <Compile Include="Assets\Scripts\PlayerStuff\CollisionHandler.cs" />
     <Compile Include="Assets\Scripts\BaseStuff\MethCrystal.cs" />
     <Compile Include="Assets\Scripts\Sounds\AudioManagerScript.cs" />

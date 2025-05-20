@@ -1,13 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mime;
-using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using UnityEngine.UI;
-using Image = UnityEngine.UI.Image;
 
 public class GateExit : MonoBehaviour
 {

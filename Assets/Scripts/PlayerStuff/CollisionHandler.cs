@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using BaseStuff;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -32,13 +30,18 @@ public class CollisionHandler : MonoBehaviour
     //resolve other object collision
     private void OnTriggerEnter2D (Collider2D other)
     {
+
         Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
         if (other.gameObject.TryGetComponent(out Damage dmg2))
         {
             Debug.Log(dmg2.gameObject.name + " has a Damage component");
-            if (!playerHealth.canTakeDamage) return;
+            if (!playerHealth.canTakeDamage)
+            {
+                Debug.Log("Player can't take damage");
+                return;
+            }
             playerHealth.canTakeDamage = false;
-            Debug.Log("Player can't take damage");
+            Debug.Log("Player can't take damage now");
             
             StartCoroutine(TriggerEnter(other));
             
@@ -78,19 +81,21 @@ public class CollisionHandler : MonoBehaviour
         }else
         {
             knockbackDirection.x = (other.transform.position.x - transform.position.x > 0 ? -knockbackX : knockbackX);
-            knockbackDirection.y = (other.transform.position.y - transform.position.y > 0 ? -knockbackY : 3*knockbackY);
+            knockbackDirection.y = (other.transform.position.y - transform.position.y > 0 ? -knockbackY : 15*knockbackY);
         }
 
         float _KBforce = knockbackForce;
         _KBforce = isPickaxe ? 4*knockbackForce : knockbackForce;
         player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection.normalized * _KBforce, ForceMode2D.Impulse);
+        knockingBack = false;
+        Debug.Log("Starting timer");
         StartCoroutine(KnockbackTimer());
     }
     
     private IEnumerator DebugMove()
     {
         playerMovement.canMove = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.3f);
         StartCoroutine(DebugMove());
     }
     
@@ -99,7 +104,6 @@ public class CollisionHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(0.35f);
         playerMovement.canMove = true;
-        knockingBack = false;
     }
     
     // Hurtbox collision and player taking damage
